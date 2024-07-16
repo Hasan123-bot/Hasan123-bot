@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f7f7f7;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Age Calculator</h1>
+    <form>
+        <label for="birthdate">Enter your birthdate:</label>
+        <input type="date" id="birthdate" required>
+        <br>
+        <label for="currentDateTime">Enter the current date and time:</label>
+        <input type="datetime-local" id="currentDateTime" required>
+        <br>
+        <button type="button" onclick="calculateAge()">Calculate Age</button>
+        <button type="reset" style="background-color: #f44336;">Reset</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        function calculateAge() {
+            const birthdateInput = document.getElementById('birthdate');
+            const currentDateTimeInput = document.getElementById('currentDateTime');
+
+            if (!birthdateInput.value || !currentDateTimeInput.value) {
+                alert('Please fill in both birthdate and current date/time.');
+                return;
+            }
+
+            const birthdate = new Date(birthdateInput.value);
+            const currentDateTime = new Date(currentDateTimeInput.value);
+
+            if (birthdate >= currentDateTime) {
+                alert('Birthdate should be before the current date/time.');
+                return;
+            }
+
+            const diffTime = Math.abs(currentDateTime - birthdate);
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            const diffHours = Math.floor((diffTime / (1000 * 60 * 60)) % 24);
+            const diffMinutes = Math.floor((diffTime / (1000 * 60)) % 60);
+
+            const years = Math.floor(diffDays / 365);
+            const remainingDaysAfterYears = diffDays % 365;
+            const months = Math.floor(remainingDaysAfterYears / 30);
+            const days = remainingDaysAfterYears % 30;
+
+            const resultText = `You are ${years} years, ${months} months, ${days} days, ${diffHours} hours, and ${diffMinutes} minutes old.`;
+            document.getElementById('result').innerHTML = `<p>${resultText}</p>`;
+        }
+    </script>
+</body>
+</html>
